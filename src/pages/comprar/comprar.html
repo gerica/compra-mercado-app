@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="onNovoItem()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title>Mercado: {{mercado.nome}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let i of itens">
+      {{i.nome}}
+      <ion-note item-right>
+        ({{i.quanitade}}) R${{i.valor}}
+      </ion-note>
+      <button ion-button outline item-right icon-left>
+        <ion-icon name="cart"></ion-icon>        
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button block>Realizar Compra</button>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar text-center>
+    Total: R$ 152,25
+  </ion-toolbar>
+</ion-footer>

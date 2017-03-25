@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Novo Mercado</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="onSubmit($event)">
+
+    <ion-item>
+      <ion-label>Nome</ion-label>
+      <ion-input type="text" [(ngModel)]="mercado.nome" name="nome" required></ion-input>
+    </ion-item>
+
+    <button ion-button type="submit" block [disabled]="!f.valid">Gravar</button>
+
+  </form>
+
+</ion-content>
