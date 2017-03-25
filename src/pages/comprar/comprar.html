@@ -16,13 +16,10 @@
 
   <ion-list>
     <ion-item *ngFor="let i of itens">
-      {{i.nome}}
+      {{i?.nome}}
       <ion-note item-right>
-        ({{i.quanitade}}) R${{i.valor}}
+        ({{i?.quanitadade}}) R${{i?.valor}}
       </ion-note>
-      <button ion-button outline item-right icon-left>
-        <ion-icon name="cart"></ion-icon>        
-      </button>
     </ion-item>
   </ion-list>
 

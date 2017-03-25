@@ -20,7 +20,7 @@ export class MercadoPage extends BasePage implements OnInit {
     protected loadingCtrl: LoadingController,
     protected toastCtrl: ToastController,
     private mercadoService: MercadoSerice) {
-    super(loadingCtrl, toastCtrl)
+    super(loadingCtrl, toastCtrl);
   }
 
   ngOnInit() {
