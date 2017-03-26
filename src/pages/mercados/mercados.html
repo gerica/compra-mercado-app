@@ -17,10 +17,16 @@
   <ion-list>
     <ion-item *ngFor="let m of mercados" (click)="onComprar(m)">
       {{m.nome}}
-      <ion-note item-right>
+      <ion-note item-right *ngIf="!m.compraAberta">
         Comprar
       </ion-note>
-      <button ion-button outline item-right icon-left>
+      <ion-note item-right *ngIf="m.compraAberta" color="danger">
+        Comprando...
+      </ion-note>
+      <button ion-button outline item-right icon-left *ngIf="!m.compraAberta">
+        <ion-icon name="cart"></ion-icon>        
+      </button>
+      <button ion-button outline item-right icon-left *ngIf="m.compraAberta" color="danger">
         <ion-icon name="cart"></ion-icon>        
       </button>
     </ion-item>

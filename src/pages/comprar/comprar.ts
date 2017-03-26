@@ -16,6 +16,8 @@ export class ComprarPage {
   mercado: Mercado;
   compra: Compra;
   itens: ItemCompra[] = [];
+  totalItens: number;
+  totalValor: number;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,10 +26,12 @@ export class ComprarPage {
     this.mercado = this.navParams.get('mercado');
   }
 
-  ionViewDidLoad() {
+
+  ionViewWillEnter() {
     console.clear();
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
     this.getItens();
+    this.calcularTotais();
   }
 
   public onNovoItem(): void {
@@ -38,6 +42,35 @@ export class ComprarPage {
     this.itens = this.itemService.getItens(this.compra);
     console.log(this.itens);
   }
+
+  private calcularTotais(): void {
+    this.totalItens = 0;
+    this.totalValor = 0;
+    for (let i of this.itens) {
+      this.totalItens = this.totalItens + parseInt(i.quantidade+'');
+      this.totalValor += i.valor * parseInt(i.quantidade+'');
+    }
+  }
+
+
+
+  // ionViewDidLoad() {
+  // }
+  // ionViewCanEnter(): void {
+  //   console.log('ionViewCanEnter');
+  // }
+
+  // ionViewDidLog() {
+  //   console.log('ionViewDidLog');
+  // }
+
+  // ionViewDidEnter() {
+  //   console.log('ionViewDidEnter');
+  // }
+
+  // ionViewCanLeave(): void {
+  //   console.log('ionViewCanLeave');
+  // }
 
 
 }

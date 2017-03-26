@@ -19,8 +19,9 @@ export class MercadosPage {
     console.clear();
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.getMercados();
+    console.log(this.mercados);
   }
 
   public onNovoMercado() {

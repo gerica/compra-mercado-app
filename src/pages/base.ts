@@ -24,6 +24,7 @@ export class BasePage {
         this.toast = this.toastCtrl.create({
             message: message,
             position: 'middle',
+            duration: 2000,
             showCloseButton: true,
             closeButtonText: 'Ok'
         });

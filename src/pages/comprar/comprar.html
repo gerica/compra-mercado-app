@@ -14,21 +14,28 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <!--<ion-list>
     <ion-item *ngFor="let i of itens">
       {{i?.nome}}
       <ion-note item-right>
-        ({{i?.quanitadade}}) R${{i?.valor}}
+        Qtd: {{i?.quantidade}} R${{i?.valor}}
       </ion-note>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
 
+  <ion-list>
+    <ion-item *ngFor="let i of itens">      
+      <h2>{{i?.nome}}</h2>
+      <h3>Quantidade: {{i?.quantidade}}</h3>
+      <p item-right>Valor: R$ {{i?.valor}}</p>
+    </ion-item>
+  </ion-list>
   <button ion-button block>Realizar Compra</button>
 
 </ion-content>
 
 <ion-footer>
   <ion-toolbar text-center>
-    Total: R$ 152,25
+    Itens: ({{totalItens}}) Total: R$ {{totalValor}}
   </ion-toolbar>
 </ion-footer>

@@ -9,13 +9,21 @@ export class MercadoSerice {
     mercadoSub = new ReplaySubject();
 
     public getMercados(): Mercado[] {
-        return this._mercados;
+        return this._mercados.slice();
     }
 
     public addMercado(mercado: Mercado): void {
         this._mercados.push(mercado);
         this.mercadoSub.next('Operação Realizada com sucesso.');
         this.mercadoSub.complete();
+    }
+
+    public comprandoMercado(mercado: Mercado): void {
+        for (let m of this._mercados) {
+            if (m.nome === mercado.nome) {
+                m.compraAberta = true;
+            }
+        }
     }
 
 }
