@@ -1,6 +1,6 @@
+import { CompraService } from './../../services/compra.service';
 import { MercadoSerice } from './../../services/mercado.service';
 import { BasePage } from './../base';
-import { ItemCompraService } from './../../services/item-compra.service';
 import { ItemCompra } from './../../modelo/item-compra';
 import { Compra } from './../../modelo/compra';
 import { Component } from '@angular/core';
@@ -10,7 +10,7 @@ import { NavController, NavParams, LoadingController, ToastController } from 'io
 @Component({
   selector: 'page-item-compra',
   templateUrl: 'item-compra.html',
-  providers: [ItemCompraService, MercadoSerice]
+  providers: [CompraService, MercadoSerice]
 })
 export class ItemCompraPage extends BasePage {
   compra: Compra;
@@ -18,13 +18,12 @@ export class ItemCompraPage extends BasePage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private itemService: ItemCompraService,
+    private compraService: CompraService,
     protected loadingCtrl: LoadingController,
     protected toastCtrl: ToastController,
     private mercadoService: MercadoSerice) {
     super(loadingCtrl, toastCtrl)
     this.compra = this.navParams.get('compra');
-    this.itemCompra.compra = this.compra;
   }
 
   ionViewDidLoad() {
@@ -33,23 +32,24 @@ export class ItemCompraPage extends BasePage {
 
   public onSubmit(event: any) {
     event.preventDefault();
-    // this.createLoading('Adicionando...');
-    // this.itemService.addItem(this.itemCompra);
-    // this.loading.dismiss();
-    // this.createToast('Adcionando com sucesso.');
-    // this.navCtrl.pop();
-
-    event.preventDefault();
     this.createLoading('Gravando...');
-    this.itemService.addItem(this.itemCompra);
-    this.itemService.itemSub.subscribe(
+    this.compraService.addItem(this.itemCompra, this.compra).subscribe(
       (result: string) => {
-        this.mercadoService.comprandoMercado(this.itemCompra.compra.mercado);
+        this.mercadoService.comprandoMercado(this.compra.mercado);
         this.loading.dismiss();
         this.createToast(result);
         this.navCtrl.pop();
       }
-    )
+    );
+    // this.itemService.addItem(this.itemCompra);
+    // this.itemService.itemSub.subscribe(
+    //   (result: string) => {
+    //     this.mercadoService.comprandoMercado(this.compra.mercado);
+    //     this.loading.dismiss();
+    //     this.createToast(result);
+    //     this.navCtrl.pop();
+    //   }
+    // )
   }
 
 }

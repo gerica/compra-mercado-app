@@ -23,7 +23,7 @@ export class BasePage {
     protected createToast(message: string) {
         this.toast = this.toastCtrl.create({
             message: message,
-            position: 'middle',
+            position: 'bottom',
             duration: 2000,
             showCloseButton: true,
             closeButtonText: 'Ok'

@@ -1,19 +1,27 @@
+import { MercadoSerice } from './../../services/mercado.service';
 import { BasePage } from './../base';
 import { ModalOpcaoItemCompraPage } from './modal-opcao-item-compra';
 import { OpcaoItemCompraPage, ACOES } from './opcao-item-compra';
-import { ItemCompraService } from './../../services/item-compra.service';
 import { CompraService } from './../../services/compra.service';
 import { ItemCompraPage } from './../item-compra/item-compra';
 import { ItemCompra } from './../../modelo/item-compra';
 import { Compra } from './../../modelo/compra';
 import { Mercado } from './../../modelo/mercado';
 import { Component } from '@angular/core';
-import { NavController, NavParams, PopoverController, ModalController, LoadingController, ToastController } from 'ionic-angular';
+import {
+  NavController,
+  NavParams,
+  PopoverController,
+  ModalController,
+  LoadingController,
+  ToastController,
+  AlertController
+} from 'ionic-angular';
 
 @Component({
   selector: 'page-comprar',
   templateUrl: 'comprar.html',
-  providers: [CompraService, ItemCompraService]
+  providers: [CompraService, MercadoSerice]
 })
 export class ComprarPage extends BasePage {
   mercado: Mercado;
@@ -21,13 +29,15 @@ export class ComprarPage extends BasePage {
   itens: ItemCompra[] = [];
   totalItens: number;
   totalValor: number;
+  temItens = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController,
     private compraService: CompraService,
-    private itemService: ItemCompraService,
+    private mercadoService: MercadoSerice,
+    private alertCtrl: AlertController,
     protected loadingCtrl: LoadingController,
     protected toastCtrl: ToastController) {
     super(loadingCtrl, toastCtrl)
@@ -38,7 +48,7 @@ export class ComprarPage extends BasePage {
   ionViewWillEnter() {
     console.clear();
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
-    this.getItens();    
+    this.getItens();
   }
 
   public onNovoItem(): void {
@@ -46,8 +56,9 @@ export class ComprarPage extends BasePage {
   }
 
   private getItens() {
-    this.itens = this.itemService.getItens(this.compra);
+    this.itens = this.compra.itens;
     this.calcularTotais();
+    this.habilitarBotaoCompra();
   }
 
   private calcularTotais(): void {
@@ -95,22 +106,66 @@ export class ComprarPage extends BasePage {
   }
 
   private editarItemCompra(item: ItemCompra): void {
-    this.itemService.editarItemCompra(item).subscribe(
+    this.compraService.editarItemCompra(item).subscribe(
       (result: string) => {
         this.getItens();
         this.createToast(result);
       }
-    );    
+    );
+  }
+
+  private remover(item: ItemCompra): void {
+    this.compraService.remover(this.compra, item).subscribe(
+      (result: string) => {
+        this.getItens();
+        this.createToast(result);
+      }
+    );
+  }
+
+  private onComprar(): void {
+    this.compraService.realizarCompra(this.compra, this.totalValor).subscribe(
+      (result: string) => {
+        this.mercadoService.fecharCompra(this.compra.mercado).subscribe(
+          (result: string) => {
+            this.createToast(result);
+            this.navCtrl.popToRoot();
+          }
+        )
+      }
+    );
   }
 
 
-  private remover(item: ItemCompra): void {
-    this.itemService.remover(item).subscribe(
-      (result: string) => {
-        this.getItens();
-        this.createToast(result);
-      }
-    );    
+  public showConfirm(): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Realizar Compra',
+      message: `Finalizar a compra, mercado: ${this.compra.mercado.nome}, valor: R$ ${this.totalValor}`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.onComprar();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  private habilitarBotaoCompra(): void {
+    if (this.compra.itens.length > 0) {
+      this.temItens = true;
+    } else {
+      this.temItens = false;
+      this.mercadoService.fecharCompra(this.compra.mercado).subscribe();
+    }
   }
 
 

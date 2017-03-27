@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Mercado } from './../modelo/mercado';
 import { MERCADOS } from './../dados/mercados';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -24,6 +25,20 @@ export class MercadoSerice {
                 m.compraAberta = true;
             }
         }
+    }
+
+
+    public fecharCompra(mercado: Mercado): Observable<Object> {
+        let obj = new Observable(observer => {
+            for (let m of this._mercados) {
+                if (m.nome === mercado.nome) {
+                    m.compraAberta = false;
+                }
+            }
+            observer.next('Operação realizada com sucesso.')
+            observer.complete();
+        });
+        return obj;
     }
 
 }

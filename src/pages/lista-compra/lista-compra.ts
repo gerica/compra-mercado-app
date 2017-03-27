@@ -1,18 +1,30 @@
+import { Compra } from './../../modelo/compra';
+import { CompraService } from './../../services/compra.service';
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+
 
 
 @Component({
   selector: 'page-lista-compra',
-  templateUrl: 'lista-compra.html'
+  templateUrl: 'lista-compra.html',
+  providers: [CompraService]
 })
 export class ListaCompraPage {
+  compras: Compra[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(private compraService: CompraService) { }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.clear();
-    console.log('ionViewDidLoad ListaCompraPage');
+    this.getCompras();
+  }
+
+  private getCompras(): void {
+    this.compraService.getComprasRealizadas().subscribe(
+      (data: Compra[]) => {
+        this.compras = data;
+      }
+    );
   }
 
 }

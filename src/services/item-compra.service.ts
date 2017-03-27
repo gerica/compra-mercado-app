@@ -19,11 +19,11 @@ export class ItemCompraService {
     public getItens(compra: Compra): ItemCompra[] {
         let result: ItemCompra[] = [];
 
-        for (let i of this._itens) {
-            if (compra.mercado.nome === i.compra.mercado.nome) {
-                result.push(i);
-            }
-        }
+        // for (let i of this._itens) {
+        //     if (compra.mercado.nome === i.compra.mercado.nome) {
+        //         result.push(i);
+        //     }
+        // }
         return result;
     }
 
