@@ -1,3 +1,5 @@
+import { OpcaoItemCompraPage } from './../pages/comprar/opcao-item-compra';
+import { ModalOpcaoItemCompraPage } from './../pages/comprar/modal-opcao-item-compra';
 import { ItemCompraPage } from './../pages/item-compra/item-compra';
 import { MercadoPage } from './../pages/mercado/mercado';
 import { TabsPage } from './../pages/tabs/tabs';
@@ -18,7 +20,9 @@ import { ComprarPage } from "../pages/comprar/comprar";
     MercadoPage,
     MercadosPage,
     ComprarPage,
-    ItemCompraPage
+    ItemCompraPage,
+    OpcaoItemCompraPage,
+    ModalOpcaoItemCompraPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -31,7 +35,9 @@ import { ComprarPage } from "../pages/comprar/comprar";
     MercadoPage,
     MercadosPage,
     ComprarPage,
-    ItemCompraPage
+    ItemCompraPage,
+    OpcaoItemCompraPage,
+    ModalOpcaoItemCompraPage
   ],
   providers: [
     StatusBar,

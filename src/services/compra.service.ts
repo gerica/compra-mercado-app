@@ -27,8 +27,7 @@ export class CompraService {
             compra = new Compra();
             compra.mercado = mercado;
             this._compras.push(compra);
-        }
-        console.log(this._compras);
+        }        
         return compra;
     }
 

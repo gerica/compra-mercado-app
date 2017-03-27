@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            {{titulo}}: {{item?.nome}}
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss('fechar')">
+        <span ion-text color="primary" showWhen="ios">Fechar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list *ngIf="acoes[1]!==acao">
+        <ion-item>
+            Item:
+            <ion-note item-right>
+                {{item?.nome}}
+            </ion-note>
+        </ion-item>
+        <ion-item>
+            Valor:
+            <ion-note item-right>
+                {{item?.valor}}
+            </ion-note>
+        </ion-item>
+        <ion-item>
+            Quantidade:
+            <ion-note item-right>
+                {{item?.quantidade}}
+            </ion-note>
+        </ion-item>
+        <ion-item>
+            Descrição:
+            <ion-note item-right>
+                {{item?.descricao}}
+            </ion-note>
+        </ion-item>
+        <button ion-button icon-left color='dark' block (click)="dismiss(acoes[0])" *ngIf="acoes[0]===acao">
+                <ion-icon name="close-circle"></ion-icon>
+                {{acoes[3]}}
+        </button>
+        <button ion-button icon-left color='danger' block (click)="dismiss(acoes[2])" *ngIf="acoes[2]===acao">
+                <ion-icon name="trash"></ion-icon>
+                {{acoes[2]}}
+        </button>
+    </ion-list>
+
+    {{acoes[1]}}
+    {{acao}}
+
+    <form #f="ngForm" (ngSubmit)="onSubmit($event)" *ngIf="acoes[1]===acao">
+
+        <form #f="ngForm" (ngSubmit)="onSubmit($event)">
+
+            <ion-item>
+                <ion-label>Item</ion-label>
+                <ion-input type="text" [(ngModel)]="item.nome" name="nome" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Valor</ion-label>
+                <ion-input type="text" [(ngModel)]="item.valor" name="valor" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Quantidade</ion-label>
+                <ion-input type="text" [(ngModel)]="item.quantidade" name="quantidade" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Descrição</ion-label>
+                <ion-textarea [(ngModel)]="item.descricao" name="descricao"></ion-textarea>
+            </ion-item>
+
+            <button ion-button type="submit" icon-left block [disabled]="!f.valid">
+                <ion-icon name="clipboard"></ion-icon>
+                Gravar
+            </button>
+
+        </form>
+
+    </form>
+</ion-content>
