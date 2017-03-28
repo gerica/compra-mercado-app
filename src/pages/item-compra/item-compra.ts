@@ -34,6 +34,7 @@ export class ItemCompraPage extends BasePage {
     event.preventDefault();
     this.createLoading('Gravando...');
     if (this.validarForm()) {
+      this.converterMumeros();
       this.compraService.addItem(this.itemCompra, this.compra).subscribe(
         (result: string) => {
           this.mercadoService.comprandoMercado(this.compra.mercado);
@@ -42,24 +43,26 @@ export class ItemCompraPage extends BasePage {
           this.navCtrl.pop();
         }
       );
-    } else {
-      this.loading.dismiss();
-      this.createToastCloseButton('Valor não é um número válido.')
     }
   }
 
   private validarForm(): boolean {
-
-    if (this.itemCompra.valor.toString().match(/^\d+$/)) {
-      return true;
-    } else if (this.itemCompra.valor.toString().match(/^\d+\.\d+$/)) {
-      return true;
-    } else if (this.itemCompra.valor.toString().match(/^\d+\,\d+$/)) {
-      let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
-      console.log(valorTemp);
-      this.itemCompra.valor = parseFloat(valorTemp);
-      return true;
+    if (!this.itemCompra.quantidade) {
+      this.loading.dismiss();
+      this.createToastCloseButton('A quantidade é obrigatório.')
+      return false;
     }
+
+    // if (this.itemCompra.valor.toString().match(/^\d+$/)) {
+    //   return true;
+    // } else if (this.itemCompra.valor.toString().match(/^\d+\.\d+$/)) {
+    //   return true;
+    // } else if (this.itemCompra.valor.toString().match(/^\d+\,\d+$/)) {
+    //   let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
+    //   console.log(valorTemp);
+    //   this.itemCompra.valor = parseFloat(valorTemp);
+    //   return true;
+    // }
 
 
     //   if (!isNaN(this.itemCompra.valor)) {
@@ -67,7 +70,22 @@ export class ItemCompraPage extends BasePage {
     //     this.itemCompra.valor = parseInt(valorTemp);
 
     //   }
-    return false;
+    if (!this.itemCompra.valor) {
+      this.loading.dismiss();
+      this.createToastCloseButton('Valor não é um número válido.')
+      return false;
+    }
+    return true;
+  }
+
+  private converterMumeros(): void {
+    let quantidadeTemp = this.itemCompra.quantidade.toString().replace(',', '.');
+    this.itemCompra.quantidade = parseFloat(quantidadeTemp);
+
+    let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
+    this.itemCompra.valor = parseFloat(valorTemp);
+
+
   }
 
 }

@@ -58,11 +58,11 @@
             </ion-item>
             <ion-item>
                 <ion-label>Valor</ion-label>
-                <ion-input type="text" [(ngModel)]="item.valor" name="valor" required></ion-input>
+                <ion-input type="text" [(ngModel)]="item.valor" name="valor" pattern="([0-9]*[,])?[0-9]+" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>Quantidade</ion-label>
-                <ion-input type="text" [(ngModel)]="item.quantidade" name="quantidade" required></ion-input>
+                <ion-input type="text" [(ngModel)]="item.quantidade" pattern="([0-9]*[,])?[0-9]+" name="quantidade" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>Descrição</ion-label>

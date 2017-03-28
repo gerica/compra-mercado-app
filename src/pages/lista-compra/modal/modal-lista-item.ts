@@ -2,7 +2,7 @@ import { CompraService } from './../../../services/compra.service';
 import { ItemCompra } from './../../../modelo/item-compra';
 import { Compra } from './../../../modelo/compra';
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'page-modal-lista-item',
