@@ -27,29 +27,47 @@ export class ItemCompraPage extends BasePage {
   }
 
   ionViewDidLoad() {
-    console.clear();
+    // console.clear();
   }
 
   public onSubmit(event: any) {
     event.preventDefault();
     this.createLoading('Gravando...');
-    this.compraService.addItem(this.itemCompra, this.compra).subscribe(
-      (result: string) => {
-        this.mercadoService.comprandoMercado(this.compra.mercado);
-        this.loading.dismiss();
-        this.createToast(result);
-        this.navCtrl.pop();
-      }
-    );
-    // this.itemService.addItem(this.itemCompra);
-    // this.itemService.itemSub.subscribe(
-    //   (result: string) => {
-    //     this.mercadoService.comprandoMercado(this.compra.mercado);
-    //     this.loading.dismiss();
-    //     this.createToast(result);
-    //     this.navCtrl.pop();
+    if (this.validarForm()) {
+      this.compraService.addItem(this.itemCompra, this.compra).subscribe(
+        (result: string) => {
+          this.mercadoService.comprandoMercado(this.compra.mercado);
+          this.loading.dismiss();
+          this.createToast(result);
+          this.navCtrl.pop();
+        }
+      );
+    } else {
+      this.loading.dismiss();
+      this.createToastCloseButton('Valor não é um número válido.')
+    }
+  }
+
+  private validarForm(): boolean {
+
+    if (this.itemCompra.valor.toString().match(/^\d+$/)) {
+      return true;
+    } else if (this.itemCompra.valor.toString().match(/^\d+\.\d+$/)) {
+      return true;
+    } else if (this.itemCompra.valor.toString().match(/^\d+\,\d+$/)) {
+      let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
+      console.log(valorTemp);
+      this.itemCompra.valor = parseFloat(valorTemp);
+      return true;
+    }
+
+
+    //   if (!isNaN(this.itemCompra.valor)) {
+    //     let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
+    //     this.itemCompra.valor = parseInt(valorTemp);
+
     //   }
-    // )
+    return false;
   }
 
 }

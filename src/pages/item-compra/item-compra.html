@@ -9,19 +9,19 @@
 
     <ion-item>
       <ion-label>Item</ion-label>
-      <ion-input type="text" [(ngModel)]="itemCompra.nome" name="nome" required></ion-input>
+      <ion-input type="text" [(ngModel)]="itemCompra.nome" name="nome" required clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Valor</ion-label>
-      <ion-input type="text" [(ngModel)]="itemCompra.valor" name="valor" required></ion-input>
+      <ion-input type="text" [(ngModel)]="itemCompra.valor" name="valor" #valor="ngModel" required clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Quantidade</ion-label>
-      <ion-input type="text" [(ngModel)]="itemCompra.quantidade" name="quantidade" required></ion-input>
+      <ion-input type="number" [(ngModel)]="itemCompra.quantidade" name="quantidade" required clearInput></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Descrição</ion-label>      
-      <ion-textarea [(ngModel)]="itemCompra.descricao" name="descricao"></ion-textarea>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea [(ngModel)]="itemCompra.descricao" name="descricao" clearInput></ion-textarea>
     </ion-item>
 
     <button ion-button type="submit" block [disabled]="!f.valid">Gravar</button>
