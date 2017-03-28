@@ -1,3 +1,4 @@
+import { MERCADOS } from './../dados/mercados';
 import { Observable } from 'rxjs/Observable';
 import { ItemCompra } from './../modelo/item-compra';
 import { COMPRAS } from './../dados/compras';
@@ -88,9 +89,8 @@ export class CompraService {
 
     }
 
-
-
     public getComprasRealizadas(): Observable<Object> {
+        this.addCompraFake();
         let obj = new Observable(observer => {
             let compras: Compra[] = [];
             if (this._compras.length > 0) {
@@ -104,6 +104,30 @@ export class CompraService {
             observer.complete();
         });
         return obj;
+    }
+
+    private addCompraFake(): void {
+        const compra = new Compra();
+        compra.mercado = MERCADOS[0];
+        compra.data = new Date();
+        compra.valor = 159.65;
+
+        const item1 = new ItemCompra();
+        item1.descricao = 'Rapadura doce';
+        item1.nome = 'Rapadura';
+        item1.quantidade = 12;
+        item1.valor = 8.36;
+
+        const item2 = new ItemCompra();
+        item2.descricao = 'Margarina para todos';
+        item2.nome = 'Margarina';
+        item2.quantidade = 4;
+        item2.valor = 4.99;
+
+        compra.itens.push(item1);
+        compra.itens.push(item2);
+        this._compras.push(compra);
+
     }
 
 }

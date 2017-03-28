@@ -14,16 +14,6 @@
 
 <ion-content padding>
 
-  <!--<ion-list>
-    <ion-item *ngFor="let i of itens">
-      {{i?.nome}}
-      <ion-note item-right>
-        Qtd: {{i?.quantidade}} R${{i?.valor}}
-      </ion-note>
-    </ion-item>
-  </ion-list>-->
-
-
   <ion-list>
     <ion-item *ngFor="let i of itens" (tap)="onOpcoes(i)">
       <h2>{{i?.nome}}</h2>
@@ -32,7 +22,6 @@
     </ion-item>
   </ion-list>
   <button ion-button block (tap)="showConfirm()" [disabled]="!temItens">Realizar Compra</button>
-
 
 </ion-content>
 
