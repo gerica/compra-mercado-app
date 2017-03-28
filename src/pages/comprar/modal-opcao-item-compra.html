@@ -4,7 +4,7 @@
             {{titulo}}: {{item?.nome}}
         </ion-title>
         <ion-buttons start>
-            <button ion-button (click)="dismiss('fechar')">
+            <button ion-button (tap)="dismiss('fechar')">
         <span ion-text color="primary" showWhen="ios">Fechar</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
@@ -38,11 +38,11 @@
                 {{item?.descricao}}
             </ion-note>
         </ion-item>
-        <button ion-button icon-left color='dark' block (click)="dismiss(acoes[0])" *ngIf="acoes[0]===acao">
+        <button ion-button icon-left color='dark' block (tap)="dismiss(acoes[0])" *ngIf="acoes[0]===acao">
                 <ion-icon name="close-circle"></ion-icon>
                 {{acoes[3]}}
         </button>
-        <button ion-button icon-left color='danger' block (click)="dismiss(acoes[2])" *ngIf="acoes[2]===acao">
+        <button ion-button icon-left color='danger' block (tap)="dismiss(acoes[2])" *ngIf="acoes[2]===acao">
                 <ion-icon name="trash"></ion-icon>
                 {{acoes[2]}}
         </button>

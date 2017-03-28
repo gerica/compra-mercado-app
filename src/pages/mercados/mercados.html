@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <ion-buttons end>
-      <button ion-button icon-only (click)="onNovoMercado()">
+      <button ion-button icon-only (tap)="onNovoMercado()">
           <ion-icon name="add"></ion-icon>
         </button>
     </ion-buttons>
@@ -15,7 +15,7 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let m of mercados" (click)="onComprar(m)">
+    <ion-item *ngFor="let m of mercados" (tap)="onComprar(m)">
       {{m.nome}}
       <ion-note item-right *ngIf="!m.compraAberta">
         Comprar
