@@ -56,7 +56,7 @@ export class ComprarPage extends BasePage {
   }
 
   private getItens() {
-    this.itens = this.compra.itens;
+    this.itens = this.compraService.getItensOrdenado(this.compra);
     this.calcularTotais();
     this.habilitarBotaoCompra();
   }

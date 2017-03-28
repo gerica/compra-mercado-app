@@ -72,6 +72,24 @@ export class CompraService {
         return obj;
     }
 
+    public getItensOrdenado(compra: Compra): ItemCompra[] {
+        if (compra.itens.length > 0) {
+
+            return compra.itens.sort((a: ItemCompra, b: ItemCompra) => {
+                if (a.nome > b.nome) {
+                    return 1
+                } else if (a.nome < b.nome) {
+                    return -1
+                }
+                return 0;
+            });
+        }
+        return [];
+
+    }
+
+
+
     public getComprasRealizadas(): Observable<Object> {
         let obj = new Observable(observer => {
             let compras: Compra[] = [];
