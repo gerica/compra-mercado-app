@@ -24,11 +24,12 @@ import {
   providers: [CompraService, MercadoSerice]
 })
 export class ComprarPage extends BasePage {
+
   mercado: Mercado;
   compra: Compra;
   itens: ItemCompra[] = [];
-  totalItens: number;
   totalValor: number;
+  totalItens: number;
   temItens = false;
 
   constructor(public navCtrl: NavController,
@@ -57,17 +58,10 @@ export class ComprarPage extends BasePage {
 
   private getItens() {
     this.itens = this.compraService.getItensOrdenado(this.compra);
-    this.calcularTotais();
+    const totalObj: any = this.compraService.calcularTotais(this.itens);
+    this.totalItens = totalObj.totalItens;
+    this.totalValor = totalObj.totalValor;
     this.habilitarBotaoCompra();
-  }
-
-  private calcularTotais(): void {
-    this.totalItens = 0;
-    this.totalValor = 0;
-    for (let i of this.itens) {
-      this.totalItens = this.totalItens + parseInt(i.quantidade + '');
-      this.totalValor += i.valor * parseInt(i.quantidade + '');
-    }
   }
 
   public onOpcoes(item: ItemCompra, event: MouseEvent): void {

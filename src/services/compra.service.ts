@@ -106,6 +106,19 @@ export class CompraService {
         return obj;
     }
 
+    public calcularTotais(itens: ItemCompra[]): Object {
+        let totalItens = 0;
+        let totalValor = 0;
+        for (let i of itens) {
+            totalItens = totalItens + parseInt(i.quantidade + '');
+            totalValor += i.valor * parseInt(i.quantidade + '');
+        }
+        return {
+            totalItens: totalItens,
+            totalValor: totalValor
+        }
+    }
+
     private addCompraFake(): void {
         const compra = new Compra();
         compra.mercado = MERCADOS[0];

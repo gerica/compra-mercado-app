@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>modal-lista-item</ion-title>
+    <ion-title>Visualizar Itens</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -19,3 +19,9 @@
   <button ion-button block (tap)="dismiss()">Fechar</button>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar text-center>
+    Itens: ({{totalItens}}) Total: R$ {{totalValor}}
+  </ion-toolbar>
+</ion-footer>
