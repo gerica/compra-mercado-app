@@ -10,8 +10,8 @@ import {
 
 @Component({
   selector: 'page-mercado',
-  templateUrl: 'mercado.html',
-  providers: [MercadoSerice]
+  templateUrl: 'mercado.html'
+  
 })
 export class MercadoPage extends BasePage implements OnInit {
   mercado: Mercado;
@@ -30,15 +30,13 @@ export class MercadoPage extends BasePage implements OnInit {
 
   public onSubmit(event: any) {
     event.preventDefault();
-    this.createLoading('Gravando...');
+    // this.createLoading('Gravando...');
     this.mercadoService.addMercado(this.mercado);
-    this.mercadoService.mercadoSub.subscribe(
-      (result: string) => {
-        this.loading.dismiss();
-        this.createToast(result);
-        this.navCtrl.pop();
-      }
-    )
+
+    // this.loading.dismiss();
+    // this.createToast(result);
+    this.navCtrl.pop();
+
   }
 
 }

@@ -20,8 +20,7 @@ import {
 
 @Component({
   selector: 'page-comprar',
-  templateUrl: 'comprar.html',
-  providers: [CompraService, MercadoSerice]
+  templateUrl: 'comprar.html'
 })
 export class ComprarPage extends BasePage {
 
@@ -47,7 +46,7 @@ export class ComprarPage extends BasePage {
 
 
   ionViewWillEnter() {
-    console.clear();
+    // console.clear();
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
     this.getItens();
   }

@@ -6,8 +6,7 @@ import { NavParams, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'page-modal-lista-item',
-  templateUrl: 'modal-lista-item.html',
-  providers: [CompraService]
+  templateUrl: 'modal-lista-item.html'
 })
 export class ModalListaItemPage {
   compra: Compra;

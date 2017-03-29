@@ -8,8 +8,7 @@ import { PopoverController, ModalController } from "ionic-angular";
 
 @Component({
   selector: 'page-lista-compra',
-  templateUrl: 'lista-compra.html',
-  providers: [CompraService]
+  templateUrl: 'lista-compra.html'
 })
 export class ListaCompraPage {
   compras: Compra[];

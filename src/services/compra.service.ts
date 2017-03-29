@@ -1,19 +1,22 @@
-import { MERCADOS } from './../dados/mercados';
 import { Observable } from 'rxjs/Observable';
 import { ItemCompra } from './../modelo/item-compra';
-import { COMPRAS } from './../dados/compras';
 import { Mercado } from './../modelo/mercado';
 import { Compra } from './../modelo/compra';
 import { Injectable } from '@angular/core';
+import { Storage } from "@ionic/storage";
+
 
 @Injectable()
 export class CompraService {
     // TODO
-    private _compras = COMPRAS;
+    private _compras: Compra[] = [];
+    constructor(private storage: Storage) {
+        this.getCompras();
+    }
 
     // Retorna um compra aberta ou cria uma nova
     public criarOuObterCompra(mercado: Mercado): Compra {
-        let compra: Compra;;
+        let compra: Compra;
         if (this._compras.length > 0) {
             compra = this._compras.find((c: Compra) => {
                 if (mercado.nome === c.mercado.nome) {
@@ -29,13 +32,16 @@ export class CompraService {
             compra = new Compra();
             compra.mercado = mercado;
             this._compras.push(compra);
+            const index = this._compras.indexOf(compra);
+            this.addCompra(index);
         }
         return compra;
     }
 
     public addItem(item: ItemCompra, compra: Compra): Observable<Object> {
         let obj = new Observable(observer => {
-            compra.itens.push(item)
+            compra.itens.push(item);
+            this.addCompra();
             observer.next('Operação realizada com sucesso.')
             observer.complete();
         });
@@ -90,7 +96,7 @@ export class CompraService {
     }
 
     public getComprasRealizadas(): Observable<Object> {
-        this.addCompraFake();
+        // this.addCompraFake();
         let obj = new Observable(observer => {
             let compras: Compra[] = [];
             if (this._compras.length > 0) {
@@ -119,28 +125,52 @@ export class CompraService {
         }
     }
 
-    private addCompraFake(): void {
-        const compra = new Compra();
-        compra.mercado = MERCADOS[0];
-        compra.data = new Date();
-        compra.valor = 159.65;
+    private getCompras(): Promise<Compra[]> {
+        return this.storage.get('compras')
+            .then(
+            compras => {
+                this._compras = compras !== null ? compras : [];
+                return this._compras.slice();
 
-        const item1 = new ItemCompra();
-        item1.descricao = 'Rapadura doce';
-        item1.nome = 'Rapadura';
-        item1.quantidade = 12;
-        item1.valor = 8.36;
-
-        const item2 = new ItemCompra();
-        item2.descricao = 'Margarina para todos';
-        item2.nome = 'Margarina';
-        item2.quantidade = 4;
-        item2.valor = 4.99;
-
-        compra.itens.push(item1);
-        compra.itens.push(item2);
-        this._compras.push(compra);
-
+            }).catch(err => console.error(err));
     }
+
+    private addCompra(...index): void {
+        this.storage.set('compras', this._compras)
+            .then((data: Compra[]) => {
+                console.log(`sucesso ${data}`);
+            })
+            .catch(err => {
+                if (index) {
+                    for (let i of index) {
+                        this._compras.splice(i, 1);
+                    }
+                }
+            });
+    }
+
+    // private addCompraFake(): void {
+    //     const compra = new Compra();
+    //     compra.mercado = MERCADOS[0];
+    //     compra.data = new Date();
+    //     compra.valor = 159.65;
+
+    //     const item1 = new ItemCompra();
+    //     item1.descricao = 'Rapadura doce';
+    //     item1.nome = 'Rapadura';
+    //     item1.quantidade = 12;
+    //     item1.valor = 8.36;
+
+    //     const item2 = new ItemCompra();
+    //     item2.descricao = 'Margarina para todos';
+    //     item2.nome = 'Margarina';
+    //     item2.quantidade = 4;
+    //     item2.valor = 4.99;
+
+    //     compra.itens.push(item1);
+    //     compra.itens.push(item2);
+    //     this._compras.push(compra);
+
+    // }
 
 }

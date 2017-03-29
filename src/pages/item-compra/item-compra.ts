@@ -9,8 +9,7 @@ import { NavController, NavParams, LoadingController, ToastController } from 'io
 
 @Component({
   selector: 'page-item-compra',
-  templateUrl: 'item-compra.html',
-  providers: [CompraService, MercadoSerice]
+  templateUrl: 'item-compra.html'
 })
 export class ItemCompraPage extends BasePage {
   compra: Compra;

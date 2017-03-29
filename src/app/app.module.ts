@@ -1,3 +1,6 @@
+import { CompraService } from './../services/compra.service';
+import { MercadoSerice } from './../services/mercado.service';
+import { IonicStorageModule } from '@ionic/storage';
 import { ModalListaItemPage } from './../pages/lista-compra/modal/modal-lista-item';
 import { OpcaoListCompraPage } from './../pages/lista-compra/opcao-lista-compra';
 import { OpcaoItemCompraPage } from './../pages/comprar/opcao-item-compra';
@@ -29,7 +32,8 @@ import { ComprarPage } from "../pages/comprar/comprar";
     ModalListaItemPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -48,6 +52,9 @@ import { ComprarPage } from "../pages/comprar/comprar";
   providers: [
     StatusBar,
     SplashScreen,
+    MercadoSerice,
+    CompraService,
+    Storage,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
