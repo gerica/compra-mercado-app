@@ -126,11 +126,11 @@ export class CompraService {
         let totalValor = 0;
         for (let i of itens) {
             totalItens = totalItens + parseFloat(i.quantidade + '');
-            totalValor += i.valor * parseFloat(i.quantidade + '');
+            totalValor += i.valor * i.quantidade;
         }
         return {
             totalItens: totalItens,
-            totalValor: totalValor
+            totalValor: totalValor.toFixed(2)
         }
     }
 
