@@ -56,10 +56,32 @@ export class ListaCompraPage extends BasePage {
       if (!data) {
         return;
       } else if (data.action === ACOES_LISTA[0]) {
-        this.remove(null);
+        this.showConfirmApagarAll();
       }
     });
 
+  }
+
+  public showConfirmApagarAll(): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Apagar Compra',
+      message: `Todas as compras serão apagadas.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.remove(null);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   public showConfirmApagar(compra: Compra): void {
