@@ -34,7 +34,7 @@ export class ItemCompraPage extends BasePage {
     this.createLoading('Gravando...');
     if (this.validarForm()) {
       this.converterMumeros();
-      this.compraService.addItem(this.itemCompra, this.compra).subscribe(
+      this.compraService.insertItemCompra(this.itemCompra, this.compra).subscribe(
         (result: string) => {
           this.mercadoService.comprandoMercado(this.compra.mercado);
           this.loading.dismiss();

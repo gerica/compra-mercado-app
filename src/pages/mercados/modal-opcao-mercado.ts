@@ -1,8 +1,6 @@
 import { ACOES_OPCAO_MERCADO } from './opcao-mercado';
 import { Mercado } from './../../modelo/mercado';
 import { BasePage } from './../base';
-import { ItemCompra } from './../../modelo/item-compra';
-
 import { NavParams, ViewController, Platform, ToastController, LoadingController } from 'ionic-angular';
 import { Component, OnInit } from '@angular/core';
 @Component({

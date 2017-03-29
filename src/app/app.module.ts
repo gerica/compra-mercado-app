@@ -19,6 +19,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ComprarPage } from "../pages/comprar/comprar";
+import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ComprarPage } from "../pages/comprar/comprar";
     OpcaoListCompraPage,
     ModalListaItemPage,
     ModalOpcaoMercaoPage,
-    OpcaoMercadoPage
+    OpcaoMercadoPage,
+    OpcaoListaPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -54,7 +56,8 @@ import { ComprarPage } from "../pages/comprar/comprar";
     OpcaoListCompraPage,
     ModalListaItemPage,
     ModalOpcaoMercaoPage,
-    OpcaoMercadoPage
+    OpcaoMercadoPage,
+    OpcaoListaPage
   ],
   providers: [
     StatusBar,

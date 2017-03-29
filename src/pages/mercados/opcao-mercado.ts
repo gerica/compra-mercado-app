@@ -1,5 +1,4 @@
 import { Mercado } from './../../modelo/mercado';
-import { ItemCompra } from './../../modelo/item-compra';
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 

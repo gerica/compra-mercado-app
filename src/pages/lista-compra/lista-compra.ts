@@ -1,21 +1,28 @@
+import { BasePage } from './../base';
 import { ModalListaItemPage } from './modal/modal-lista-item';
 import { OpcaoListCompraPage, ACOES_LISTA_COMPRA } from './opcao-lista-compra';
 import { Compra } from './../../modelo/compra';
 import { CompraService } from './../../services/compra.service';
 import { Component } from '@angular/core';
-import { PopoverController, ModalController } from "ionic-angular";
+import { PopoverController, ModalController, AlertController, LoadingController, ToastController } from "ionic-angular";
+import { OpcaoListaPage, ACOES_LISTA } from "./opcao-lista";
 
 
 @Component({
   selector: 'page-lista-compra',
   templateUrl: 'lista-compra.html'
 })
-export class ListaCompraPage {
+export class ListaCompraPage extends BasePage {
   compras: Compra[];
 
   constructor(private compraService: CompraService,
     private modalCtrl: ModalController,
-    private popoverCtrl: PopoverController) { }
+    private alertCtrl: AlertController,
+    protected loadingCtrl: LoadingController,
+    protected toastCtrl: ToastController,
+    private popoverCtrl: PopoverController) {
+    super(loadingCtrl, toastCtrl);
+  }
 
   ionViewWillEnter() {
     console.clear();
@@ -33,13 +40,48 @@ export class ListaCompraPage {
       } else if (data.action === ACOES_LISTA_COMPRA[1]) {
         console.log(data.action);
       } else if (data.action === ACOES_LISTA_COMPRA[2]) {
-        console.log(data.action);
+        this.showConfirmApagar(data.compra);
       } else if (data.action === ACOES_LISTA_COMPRA[3]) {
         console.log(data.action);
         return;
       }
 
     });
+  }
+
+  public onShowOptions(event: MouseEvent) {
+    const popover = this.popoverCtrl.create(OpcaoListaPage);
+    popover.present({ ev: event });
+    popover.onDidDismiss(data => {
+      if (!data) {
+        return;
+      } else if (data.action === ACOES_LISTA[0]) {
+        this.remove(null);
+      }
+    });
+
+  }
+
+  public showConfirmApagar(compra: Compra): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Apagar Compra',
+      message: `A compra do dia ${this.dataAtualFormatada(compra.data)} do mercado ${compra.mercado.nome} no valor de ${compra.valor} será apagada.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.remove(compra);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   private modalListaItens(compra: Compra): void {
@@ -53,6 +95,33 @@ export class ListaCompraPage {
         this.compras = data;
       }
     );
+  }
+
+  private remove(compra: Compra): void {
+    this.createLoading('Apagando...');
+    this.compraService.removeCompra(compra).subscribe(
+      (msg: string) => {
+        this.getCompras();
+        this.loading.dismiss();
+        this.createToast(msg);
+      },
+      err => {
+        this.loading.dismiss();
+        this.createToast(err);
+      })
+  }
+
+  private dataAtualFormatada(data: Date): string {
+
+    let month = String(data.getMonth() + 1);
+    let day = String(data.getDate());
+    const year = String(data.getFullYear());
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return `${month}/${day}/${year}`;
+
   }
 
 }

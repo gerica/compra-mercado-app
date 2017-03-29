@@ -13,7 +13,7 @@ export class CompraService {
     private _compras: Compra[] = [];
     constructor(private storage: Storage,
         private utilService: UtilService) {
-        this.getCompras();
+        this.fetchCompras();
     }
 
     // Retorna um compra aberta ou cria uma nova
@@ -36,36 +36,41 @@ export class CompraService {
             compra.id = this.utilService.uniqueId();
             this._compras.push(compra);
             const index = this._compras.indexOf(compra);
-            this.addCompra(index);
+            this.persistCompras(index);
         }
         return compra;
     }
 
-    public addItem(item: ItemCompra, compra: Compra): Observable<Object> {
+    public insertItemCompra(item: ItemCompra, compra: Compra): Observable<Object> {
         let obj = new Observable(observer => {
             compra.itens.push(item);
-            this.addCompra();
-            observer.next('Operação realizada com sucesso.')
-            observer.complete();
+            this.storageCompra().then(() => {
+                observer.next('Operação realizada com sucesso.')
+                observer.complete();
+            });
         });
         return obj;
     }
 
-    public editarItemCompra(item: ItemCompra): Observable<Object> {
+    public updateItemCompra(item: ItemCompra): Observable<Object> {
         let obj = new Observable(observer => {
-            this.addCompra();
-            observer.next('Operação realizada com sucesso.')
-            observer.complete();
+            this.persistCompras();
+            this.storageCompra().then(() => {
+                observer.next('Operação realizada com sucesso.')
+                observer.complete();
+            });
         });
         return obj;
     }
 
-    public remover(compra: Compra, item: ItemCompra): Observable<Object> {
+    public removeItemCompra(compra: Compra, item: ItemCompra): Observable<Object> {
         let obj = new Observable(observer => {
             let index = compra.itens.indexOf(item);
             compra.itens.splice(index, 1);
-            observer.next('Operação realizada com sucesso.')
-            observer.complete();
+            this.storageCompra().then(() => {
+                observer.next('Operação realizada com sucesso.')
+                observer.complete();
+            });
         });
         return obj;
     }
@@ -74,9 +79,10 @@ export class CompraService {
         let obj = new Observable(observer => {
             compra.valor = valor;
             compra.data = new Date();
-            this.addCompra();
-            observer.next('Operação realizada com sucesso.')
-            observer.complete();
+            this.storageCompra().then(() => {
+                observer.next('Operação realizada com sucesso.')
+                observer.complete();
+            });
         });
         return obj;
     }
@@ -86,9 +92,9 @@ export class CompraService {
 
             return compra.itens.sort((a: ItemCompra, b: ItemCompra) => {
                 if (a.nome > b.nome) {
-                    return 1
+                    return 1;
                 } else if (a.nome < b.nome) {
-                    return -1
+                    return -1;
                 }
                 return 0;
             });
@@ -99,8 +105,7 @@ export class CompraService {
 
     public getComprasRealizadas(): Observable<Object> {
         let obj = new Observable(observer => {
-            this.getCompras().then(() => {
-                console.log(this._compras);
+            this.fetchCompras().then(() => {
                 let compras: Compra[] = [];
                 if (this._compras.length > 0) {
                     for (let c of this._compras) {
@@ -129,7 +134,30 @@ export class CompraService {
         }
     }
 
-    private getCompras(): Promise<Compra[]> {
+    public removeCompra(compra: Compra): Observable<Object> {
+        let obj = new Observable(observer => {
+            this.fetchCompras().then(() => {
+                if (this._compras.length > 0) {
+                    if (compra !== null) {
+                        let index = this._compras.indexOf(compra);
+                        this._compras.splice(index, 1);
+                    } else {
+                        this._compras = [];
+                    }
+                    this.storageCompra().then(() => {
+                        observer.next('Operação realizada com sucesso.')
+                        observer.complete();
+                    });
+                } else {
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
+                }
+            });
+        });
+        return obj;
+    }
+
+    private fetchCompras(): Promise<Compra[]> {
         return this.storage.get('compras')
             .then(
             compras => {
@@ -139,17 +167,20 @@ export class CompraService {
             }).catch(err => console.error(err));
     }
 
-    private addCompra(...index): void {
-        this.storage.set('compras', this._compras)
-            .then((data: Compra[]) => {
-                console.log(`sucesso ${data}`);
-            })
-            .catch(err => {
-                if (index) {
-                    for (let i of index) {
-                        this._compras.splice(i, 1);
-                    }
+    private persistCompras(...index): void {
+        this.storageCompra().then((data: Compra[]) => {
+            console.log(`sucesso ${data}`);
+        }).catch(err => {
+            if (index) {
+                for (let i of index) {
+                    this._compras.splice(i, 1);
                 }
-            });
+            }
+        });
     }
+
+    private storageCompra(...index): Promise<Compra[]> {
+        return this.storage.set('compras', this._compras);
+    }
+
 }

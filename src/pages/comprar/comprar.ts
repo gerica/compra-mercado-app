@@ -100,7 +100,7 @@ export class ComprarPage extends BasePage {
 
   private editarItemCompra(item: ItemCompra): void {
     console.log(item);
-    this.compraService.editarItemCompra(item).subscribe(
+    this.compraService.updateItemCompra(item).subscribe(
       (result: string) => {
         this.getItens();
         this.createToast(result);
@@ -109,7 +109,7 @@ export class ComprarPage extends BasePage {
   }
 
   private remover(item: ItemCompra): void {
-    this.compraService.remover(this.compra, item).subscribe(
+    this.compraService.removeItemCompra(this.compra, item).subscribe(
       (result: string) => {
         this.getItens();
         this.createToast(result);

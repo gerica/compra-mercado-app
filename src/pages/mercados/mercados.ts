@@ -10,7 +10,8 @@ import {
   ToastController,
   LoadingController,
   PopoverController,
-  ModalController
+  ModalController,
+  AlertController
 } from 'ionic-angular';
 import { ComprarPage } from "../comprar/comprar";
 
@@ -26,6 +27,7 @@ export class MercadosPage extends BasePage {
     private mercadoService: MercadoSerice,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     protected loadingCtrl: LoadingController,
     protected toastCtrl: ToastController) {
     super(loadingCtrl, toastCtrl);
@@ -54,7 +56,8 @@ export class MercadosPage extends BasePage {
       } else if (data.action === ACOES_OPCAO_MERCADO[0]) {
         this.modalOpcoes(data.item, ACOES_OPCAO_MERCADO[0])
       } else if (data.action === ACOES_OPCAO_MERCADO[1]) {
-        this.modalOpcoes(data.item, ACOES_OPCAO_MERCADO[1])
+        // this.modalOpcoes(data.item, ACOES_OPCAO_MERCADO[1])
+        this.showConfirmApagar(data.item);
       }
 
     });
@@ -102,6 +105,28 @@ export class MercadosPage extends BasePage {
         this.createToast(result);
       }
     );
+  }
+
+  public showConfirmApagar(mercado: Mercado): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Apagar Mercado',
+      message: `O mercado: ${mercado.nome} será apagado.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.remover(mercado);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

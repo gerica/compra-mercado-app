@@ -2,7 +2,7 @@ import { Compra } from './../../modelo/compra';
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
-export const ACOES_LISTA_COMPRA = ['Visualizar', 'Usar Lista', 'Fechar'];
+export const ACOES_LISTA_COMPRA = ['Visualizar', 'Usar Lista', 'Apagar', 'Fechar'];
 
 @Component({
     selector: 'opcao-lista-compra',
