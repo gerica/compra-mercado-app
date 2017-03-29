@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            {{titulo}}: {{item?.nome}}
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (tap)="dismiss('fechar')">
+        <span ion-text color="primary" showWhen="ios">Fechar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list *ngIf="acoes[0]!==acao">
+        <ion-item>
+            Mercado:
+            <ion-note item-right>
+                {{item?.nome}}
+            </ion-note>
+        </ion-item>
+        <button ion-button icon-left color='danger' block (tap)="dismiss(acoes[1])" *ngIf="acoes[1]===acao">
+                <ion-icon name="trash"></ion-icon>
+                {{acoes[1]}}
+        </button>
+    </ion-list>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit($event)" *ngIf="acoes[0]===acao">
+        
+        <ion-item>
+            <ion-label>Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="item.nome" name="nome" required></ion-input>
+        </ion-item>       
+
+        <button ion-button type="submit" icon-left block color='secondary' [disabled]="!f.valid">
+                <ion-icon name="clipboard"></ion-icon>
+                Gravar
+        </button>
+    </form>
+</ion-content>

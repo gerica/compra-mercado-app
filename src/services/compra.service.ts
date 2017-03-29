@@ -1,3 +1,4 @@
+import { UtilService } from './util.service';
 import { Observable } from 'rxjs/Observable';
 import { ItemCompra } from './../modelo/item-compra';
 import { Mercado } from './../modelo/mercado';
@@ -10,7 +11,8 @@ import { Storage } from "@ionic/storage";
 export class CompraService {
     // TODO
     private _compras: Compra[] = [];
-    constructor(private storage: Storage) {
+    constructor(private storage: Storage,
+        private utilService: UtilService) {
         this.getCompras();
     }
 
@@ -19,7 +21,7 @@ export class CompraService {
         let compra: Compra;
         if (this._compras.length > 0) {
             compra = this._compras.find((c: Compra) => {
-                if (mercado.nome === c.mercado.nome) {
+                if (mercado.id === c.mercado.id) {
                     if (c.data === undefined) {
                         return true;
                     }
@@ -31,6 +33,7 @@ export class CompraService {
         if (compra === undefined || compra === null) {
             compra = new Compra();
             compra.mercado = mercado;
+            compra.id = this.utilService.uniqueId();
             this._compras.push(compra);
             const index = this._compras.indexOf(compra);
             this.addCompra(index);
@@ -50,9 +53,7 @@ export class CompraService {
 
     public editarItemCompra(item: ItemCompra): Observable<Object> {
         let obj = new Observable(observer => {
-            // let index = this._itens.indexOf(item);
-            // console.log(this._itens[index]);
-            // console.log(item);
+            this.addCompra();
             observer.next('Operação realizada com sucesso.')
             observer.complete();
         });
@@ -73,6 +74,7 @@ export class CompraService {
         let obj = new Observable(observer => {
             compra.valor = valor;
             compra.data = new Date();
+            this.addCompra();
             observer.next('Operação realizada com sucesso.')
             observer.complete();
         });
@@ -96,18 +98,20 @@ export class CompraService {
     }
 
     public getComprasRealizadas(): Observable<Object> {
-        // this.addCompraFake();
         let obj = new Observable(observer => {
-            let compras: Compra[] = [];
-            if (this._compras.length > 0) {
-                for (let c of this._compras) {
-                    if (c.data !== undefined) {
-                        compras.push(c);
+            this.getCompras().then(() => {
+                console.log(this._compras);
+                let compras: Compra[] = [];
+                if (this._compras.length > 0) {
+                    for (let c of this._compras) {
+                        if (c.data !== undefined) {
+                            compras.push(c);
+                        }
                     }
                 }
-            }
-            observer.next(compras)
-            observer.complete();
+                observer.next(compras)
+                observer.complete();
+            });
         });
         return obj;
     }
@@ -148,29 +152,4 @@ export class CompraService {
                 }
             });
     }
-
-    // private addCompraFake(): void {
-    //     const compra = new Compra();
-    //     compra.mercado = MERCADOS[0];
-    //     compra.data = new Date();
-    //     compra.valor = 159.65;
-
-    //     const item1 = new ItemCompra();
-    //     item1.descricao = 'Rapadura doce';
-    //     item1.nome = 'Rapadura';
-    //     item1.quantidade = 12;
-    //     item1.valor = 8.36;
-
-    //     const item2 = new ItemCompra();
-    //     item2.descricao = 'Margarina para todos';
-    //     item2.nome = 'Margarina';
-    //     item2.quantidade = 4;
-    //     item2.valor = 4.99;
-
-    //     compra.itens.push(item1);
-    //     compra.itens.push(item2);
-    //     this._compras.push(compra);
-
-    // }
-
 }

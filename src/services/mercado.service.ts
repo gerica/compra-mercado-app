@@ -1,3 +1,4 @@
+import { UtilService } from './util.service';
 import { Observable } from 'rxjs/Observable';
 import { Mercado } from './../modelo/mercado';
 import { Injectable } from "@angular/core";
@@ -8,7 +9,8 @@ import { Storage } from "@ionic/storage";
 export class MercadoSerice {
     private _mercados: Mercado[] = [];
 
-    constructor(private storage: Storage) { }
+    constructor(private storage: Storage,
+        private utilService: UtilService) { }
 
     public getMercados(): Promise<Mercado[]> {
         return this.storage.get('mercados')
@@ -21,6 +23,7 @@ export class MercadoSerice {
     }
 
     public addMercado(mercado: Mercado): void {
+        mercado.id = this.utilService.uniqueId();
         this._mercados.push(mercado);
         const index = this._mercados.indexOf(mercado);
         this.addMercados(index);
@@ -28,7 +31,7 @@ export class MercadoSerice {
 
     public comprandoMercado(mercado: Mercado): void {
         for (let m of this._mercados) {
-            if (m.nome === mercado.nome) {
+            if (m.id === mercado.id) {
                 m.compraAberta = true;
                 console.log(m.compraAberta);
                 break;
@@ -37,11 +40,10 @@ export class MercadoSerice {
         this.addMercados();
     }
 
-
     public fecharCompra(mercado: Mercado): Observable<Object> {
         let obj = new Observable(observer => {
             for (let m of this._mercados) {
-                if (m.nome === mercado.nome) {
+                if (m.id === mercado.id) {
                     m.compraAberta = false;
                 }
             }
@@ -52,11 +54,34 @@ export class MercadoSerice {
         return obj;
     }
 
+    public editar(mercado: Mercado): Observable<Object> {
+        let obj = new Observable(observer => {
+            this.storageMercado().then(
+                () => {
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
+                });
+        });
+        return obj;
+    }
+
+    public remover(mercado: Mercado): Observable<Object> {
+        let obj = new Observable(observer => {
+            const index = this._mercados.indexOf(mercado);
+            this._mercados.splice(index, 1);
+            this.storageMercado().then(
+                () => {
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
+                }
+            );
+        });
+        return obj;
+    }
+
     private addMercados(...index): void {
-        this.storage.set('mercados', this._mercados)
-            .then((data: Mercado[]) => {
-                console.log(`sucesso ${data}`);
-            })
+        this.storageMercado()
+            .then()
             .catch(err => {
                 if (index) {
                     for (let i of index) {
@@ -64,6 +89,10 @@ export class MercadoSerice {
                     }
                 }
             });
+    }
+
+    private storageMercado(): Promise<Mercado[]> {
+        return this.storage.set('mercados', this._mercados);
     }
 
 }

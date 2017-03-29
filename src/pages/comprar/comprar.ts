@@ -99,6 +99,7 @@ export class ComprarPage extends BasePage {
   }
 
   private editarItemCompra(item: ItemCompra): void {
+    console.log(item);
     this.compraService.editarItemCompra(item).subscribe(
       (result: string) => {
         this.getItens();

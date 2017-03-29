@@ -59,7 +59,7 @@ export class ModalOpcaoItemCompraPage extends BasePage implements OnInit {
     }
 
     private converterMumeros(): void {
-        let quantidadeTemp = this.item.valor.toString().replace(',', '.');
+        let quantidadeTemp = this.item.quantidade.toString().replace(',', '.');
         this.item.quantidade = parseFloat(quantidadeTemp);
 
         let valorTemp = this.item.valor.toString().replace(',', '.');
