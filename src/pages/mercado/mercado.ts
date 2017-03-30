@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'page-mercado',
   templateUrl: 'mercado.html'
-  
+
 })
 export class MercadoPage extends BasePage implements OnInit {
   mercado: Mercado;
@@ -31,7 +31,7 @@ export class MercadoPage extends BasePage implements OnInit {
   public onSubmit(event: any) {
     event.preventDefault();
     // this.createLoading('Gravando...');
-    this.mercadoService.addMercado(this.mercado);
+    this.mercadoService.insertMercado(this.mercado);
 
     // this.loading.dismiss();
     // this.createToast(result);

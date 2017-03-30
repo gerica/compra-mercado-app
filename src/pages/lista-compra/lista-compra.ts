@@ -121,7 +121,7 @@ export class ListaCompraPage extends BasePage {
 
   private showConfirmUsarLista(compra: Compra): void {
     this.createLoading("Usar lista...");
-    this.mercadoService.getMercados()
+    this.mercadoService.fetchMercados()
       .then((mercados: Mercado[]) => {
         const inputs = [];
         for (let m of mercados) {

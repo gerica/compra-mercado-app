@@ -47,8 +47,7 @@ export class ComprarPage extends BasePage {
   }
 
 
-  ionViewWillEnter() {
-    // console.clear();
+  ionViewWillEnter() {    
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
     this.criarListaItens();
     this.getItens();
@@ -101,8 +100,7 @@ export class ComprarPage extends BasePage {
     });
   }
 
-  private editarItemCompra(item: ItemCompra): void {
-    console.log(item);
+  private editarItemCompra(item: ItemCompra): void {    
     this.compraService.updateItemCompra(item).subscribe(
       (result: string) => {
         this.getItens();

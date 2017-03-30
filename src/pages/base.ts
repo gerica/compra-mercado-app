@@ -23,7 +23,7 @@ export class BasePage {
     protected createToast(message: string) {
         this.toast = this.toastCtrl.create({
             message: message,
-            position: 'bottom',
+            position: 'top',
             duration: 2000
         });
         this.toast.present();

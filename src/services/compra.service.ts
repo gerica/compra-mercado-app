@@ -139,8 +139,8 @@ export class CompraService {
             this.fetchCompras().then(() => {
                 if (this._compras.length > 0) {
                     if (compra !== null) {
-                        let index = this._compras.indexOf(compra);
-                        this._compras.splice(index, 1);
+                        this._compras = this._compras.filter(
+                            (c: Compra) => c.id !== compra.id);
                     } else {
                         this._compras = [];
                     }
@@ -194,7 +194,7 @@ export class CompraService {
 
     private persistCompras(...index): void {
         this.storageCompra().then((data: Compra[]) => {
-            console.log(`sucesso ${data}`);
+            
         }).catch(err => {
             if (index) {
                 for (let i of index) {

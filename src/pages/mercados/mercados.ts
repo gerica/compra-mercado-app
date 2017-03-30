@@ -67,10 +67,9 @@ export class MercadosPage extends BasePage {
   }
 
   private getMercados(): void {
-    this.mercadoService.getMercados()
+    this.mercadoService.fetchMercados()
       .then((data: Mercado[]) => {
         this.mercados = data;
-        console.log(this.mercados);
       })
       .catch(err => {
         this.createToast(err.message);
@@ -92,8 +91,7 @@ export class MercadosPage extends BasePage {
   }
 
   private editarMercado(item: Mercado): void {
-    console.log(item);
-    this.mercadoService.editar(item).subscribe(
+    this.mercadoService.editMercado(item).subscribe(
       (result: string) => {
         this.getMercados();
         this.createToast(result);
@@ -102,7 +100,7 @@ export class MercadosPage extends BasePage {
   }
 
   private remover(item: Mercado): void {
-    this.mercadoService.remover(item).subscribe(
+    this.mercadoService.removeMercado(item).subscribe(
       (result: string) => {
         this.getMercados();
         this.createToast(result);
