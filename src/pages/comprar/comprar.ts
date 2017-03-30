@@ -27,6 +27,7 @@ export class ComprarPage extends BasePage {
   mercado: Mercado;
   compra: Compra;
   itens: ItemCompra[] = [];
+  itensPrePreenchidos: ItemCompra[] = [];
   totalValor: number;
   totalItens: number;
   temItens = false;
@@ -42,12 +43,14 @@ export class ComprarPage extends BasePage {
     protected toastCtrl: ToastController) {
     super(loadingCtrl, toastCtrl)
     this.mercado = this.navParams.get('mercado');
+    this.itensPrePreenchidos = this.navParams.get('itens');
   }
 
 
   ionViewWillEnter() {
     // console.clear();
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
+    this.criarListaItens();
     this.getItens();
   }
 
@@ -74,7 +77,7 @@ export class ComprarPage extends BasePage {
       } else if (data.action === ACOES[1]) {
         this.modalOpcoes(data.item, ACOES[1])
       } else if (data.action === ACOES[2]) {
-        this.modalOpcoes(data.item, ACOES[2])
+        this.showConfirmApagar(data.item);
       } else if (data.action === ACOES[3]) {
         return;
       }
@@ -93,7 +96,7 @@ export class ComprarPage extends BasePage {
       } else if (data.acao === ACOES[1]) {
         this.editarItemCompra(data.item);
       } else if (data.acao === ACOES[2]) {
-        this.remover(data.item);
+        this.showConfirmApagar(data.item);
       }
     });
   }
@@ -153,12 +156,55 @@ export class ComprarPage extends BasePage {
     confirm.present();
   }
 
+  public showConfirmApagar(item: ItemCompra): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Apagar Compra',
+      message: `O item ${item.nome} no valor de ${item.valor} será removido.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.remover(item);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
   private habilitarBotaoCompra(): void {
     if (this.compra.itens.length > 0) {
+      for (let c of this.compra.itens) {
+        if (c.valor === 0 || c.quantidade === 0) {
+          this.temItens = false;
+          return;
+        }
+      }
       this.temItens = true;
     } else {
       this.temItens = false;
       this.mercadoService.fecharCompra(this.compra.mercado).subscribe();
+    }
+  }
+
+  private criarListaItens(): void {
+    if (!!this.itensPrePreenchidos) {
+      for (let i of this.itensPrePreenchidos) {
+        i.quantidade = 0;
+        i.valor = 0;
+        this.compraService.insertItemCompra(i, this.compra).subscribe(
+          (result: string) => {
+            this.mercadoService.comprandoMercado(this.compra.mercado);
+          }
+        );
+      }
+      this.habilitarBotaoCompra();
     }
   }
 

@@ -1,10 +1,18 @@
+import { ComprarPage } from './../comprar/comprar';
 import { BasePage } from './../base';
 import { ModalListaItemPage } from './modal/modal-lista-item';
 import { OpcaoListCompraPage, ACOES_LISTA_COMPRA } from './opcao-lista-compra';
 import { Compra } from './../../modelo/compra';
 import { CompraService } from './../../services/compra.service';
 import { Component } from '@angular/core';
-import { PopoverController, ModalController, AlertController, LoadingController, ToastController } from "ionic-angular";
+import {
+  PopoverController,
+  ModalController,
+  AlertController,
+  LoadingController,
+  ToastController,
+  NavController
+} from "ionic-angular";
 import { OpcaoListaPage, ACOES_LISTA } from "./opcao-lista";
 
 
@@ -15,7 +23,8 @@ import { OpcaoListaPage, ACOES_LISTA } from "./opcao-lista";
 export class ListaCompraPage extends BasePage {
   compras: Compra[];
 
-  constructor(private compraService: CompraService,
+  constructor(public navCtrl: NavController,
+    private compraService: CompraService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     protected loadingCtrl: LoadingController,
@@ -38,7 +47,7 @@ export class ListaCompraPage extends BasePage {
       } else if (data.action === ACOES_LISTA_COMPRA[0]) {
         this.modalListaItens(data.compra)
       } else if (data.action === ACOES_LISTA_COMPRA[1]) {
-        console.log(data.action);
+        this.onComprarPreLista(data.compra);
       } else if (data.action === ACOES_LISTA_COMPRA[2]) {
         this.showConfirmApagar(data.compra);
       } else if (data.action === ACOES_LISTA_COMPRA[3]) {
@@ -143,6 +152,11 @@ export class ListaCompraPage extends BasePage {
     if (day.length < 2) day = '0' + day;
 
     return `${month}/${day}/${year}`;
+
+  }
+
+  private onComprarPreLista(compra: Compra): void {
+    this.navCtrl.push(ComprarPage, { mercado: compra.mercado, itens: compra.itens });
 
   }
 
