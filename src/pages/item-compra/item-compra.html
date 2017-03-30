@@ -13,11 +13,11 @@
     </ion-item>
     <ion-item>
       <ion-label>Valor</ion-label>
-      <ion-input type="text" [(ngModel)]="itemCompra.valor" name="valor" #valor="ngModel" pattern="([0-9]*[,])?[0-9]+" required clearInput></ion-input>
+      <ion-input type="number" [(ngModel)]="itemCompra.valor" name="valor" #valor="ngModel" clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Quantidade</ion-label>
-      <ion-input type="text" [(ngModel)]="itemCompra.quantidade" name="quantidade" pattern="([0-9]*[,])?[0-9]+" required clearInput ></ion-input>
+      <ion-input type="text" [(ngModel)]="itemCompra.quantidade" name="quantidade" pattern="([0-9]*[,])?[0-9]+" required clearInput></ion-input>
       <!--<input type="number" min="0" inputmode="numeric" pattern="[0-9]*" [(ngModel)]="itemCompra.quantidade" name="quantidade">-->
     </ion-item>
     <ion-item>
