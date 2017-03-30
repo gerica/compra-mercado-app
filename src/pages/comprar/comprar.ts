@@ -197,7 +197,7 @@ export class ComprarPage extends BasePage {
     if (!!this.itensPrePreenchidos) {
       for (let i of this.itensPrePreenchidos) {
         i.quantidade = 0;
-        i.valor = "0";
+        // i.valor = "0";
         this.compraService.insertItemCompra(i, this.compra).subscribe(
           (result: string) => {
             this.mercadoService.comprandoMercado(this.compra.mercado);

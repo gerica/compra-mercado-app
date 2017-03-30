@@ -1,3 +1,5 @@
+import { Mercado } from './../../modelo/mercado';
+import { MercadoSerice } from './../../services/mercado.service';
 import { ComprarPage } from './../comprar/comprar';
 import { BasePage } from './../base';
 import { ModalListaItemPage } from './modal/modal-lista-item';
@@ -24,6 +26,7 @@ export class ListaCompraPage extends BasePage {
   compras: Compra[];
 
   constructor(public navCtrl: NavController,
+    private mercadoService: MercadoSerice,
     private compraService: CompraService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -47,7 +50,7 @@ export class ListaCompraPage extends BasePage {
       } else if (data.action === ACOES_LISTA_COMPRA[0]) {
         this.modalListaItens(data.compra)
       } else if (data.action === ACOES_LISTA_COMPRA[1]) {
-        this.onComprarPreLista(data.compra);
+        this.showConfirmUsarLista(data.compra);
       } else if (data.action === ACOES_LISTA_COMPRA[2]) {
         this.showConfirmApagar(data.compra);
       } else if (data.action === ACOES_LISTA_COMPRA[3]) {
@@ -116,6 +119,46 @@ export class ListaCompraPage extends BasePage {
     confirm.present();
   }
 
+  private showConfirmUsarLista(compra: Compra): void {
+    this.createLoading("Usar lista...");
+    this.mercadoService.getMercados()
+      .then((mercados: Mercado[]) => {
+        const inputs = [];
+        for (let m of mercados) {
+          inputs.push({
+            type: 'radio',
+            label: m.nome,
+            value: m,
+            checked: m.id === compra.mercado.id
+          });
+        }
+
+        console.log(inputs);
+        let confirm = this.alertCtrl.create({
+          title: 'Usar lista',
+          message: `Usar lista para realizar compra. Selecione o mercado`,
+          inputs: inputs,
+          buttons: [
+            {
+              text: 'Cancelar',
+              handler: () => {
+                confirm.dismiss();
+              }
+            },
+            {
+              text: 'Confirmar',
+              handler: (mercado: Mercado) => {
+                // console.log(data);
+                this.onComprarPreLista(mercado, compra);
+              }
+            }
+          ]
+        });
+        this.loading.dismiss();
+        confirm.present();
+      });
+  }
+
   private modalListaItens(compra: Compra): void {
     let modal = this.modalCtrl.create(ModalListaItemPage, { compra: compra });
     modal.present();
@@ -143,22 +186,8 @@ export class ListaCompraPage extends BasePage {
       })
   }
 
-  private dataAtualFormatada(data: Date): string {
-
-    let month = String(data.getMonth() + 1);
-    let day = String(data.getDate());
-    const year = String(data.getFullYear());
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return `${month}/${day}/${year}`;
-
-  }
-
-  private onComprarPreLista(compra: Compra): void {
-    this.navCtrl.push(ComprarPage, { mercado: compra.mercado, itens: compra.itens });
-
+  private onComprarPreLista(mercado: Mercado, compra: Compra): void {
+    this.navCtrl.push(ComprarPage, { mercado: mercado, itens: compra.itens });
   }
 
 }
