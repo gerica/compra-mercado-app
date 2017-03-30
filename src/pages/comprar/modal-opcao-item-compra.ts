@@ -36,7 +36,7 @@ export class ModalOpcaoItemCompraPage extends BasePage implements OnInit {
 
     public dismiss(acao: string) {
         if (this.validarForm) {
-            this.converterMumeros();
+            // this.converterMumeros();
             this.viewCtrl.dismiss({
                 acao: acao,
                 item: this.item
@@ -58,20 +58,20 @@ export class ModalOpcaoItemCompraPage extends BasePage implements OnInit {
         return true;
     }
 
-    private converterMumeros(): void {
-        let quantidadeTemp = this.item.quantidade.toString().replace(',', '.');
-        this.item.quantidade = parseFloat(quantidadeTemp);
+    // private converterMumeros(): void {
+    //     let quantidadeTemp = this.item.quantidade.toString().replace(',', '.');
+    //     this.item.quantidade = parseFloat(quantidadeTemp);
 
-        let valorTemp = this.item.valor.toString().replace(',', '.');
-        this.item.valor = parseFloat(valorTemp);
-    }
+    //     let valorTemp = this.item.valor.toString().replace(',', '.');
+    //     this.item.valor = parseFloat(valorTemp);
+    // }
 
-    private converterMumerosShowTela(): void {
-        let quantidadeTemp = this.item.quantidade.toString().replace('.', ',');
-        this.item.quantidade = parseFloat(quantidadeTemp);
+    // private converterMumerosShowTela(): void {
+    //     let quantidadeTemp = this.item.quantidade.toString().replace('.', ',');
+    //     this.item.quantidade = parseFloat(quantidadeTemp);
 
-        let valorTemp = this.item.valor.toString().replace('.', ',');
-        this.item.valor = parseFloat(valorTemp);
-    }
+    //     let valorTemp = this.item.valor.toString().replace('.', ',');
+    //     this.item.valor = parseFloat(valorTemp);
+    // }
 
 }

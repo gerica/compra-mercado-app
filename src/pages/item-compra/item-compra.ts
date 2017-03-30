@@ -33,7 +33,7 @@ export class ItemCompraPage extends BasePage {
     event.preventDefault();
     this.createLoading('Gravando...');
     if (this.validarForm()) {
-      this.converterMumeros();
+      // this.converterMumeros();
       this.compraService.insertItemCompra(this.itemCompra, this.compra).subscribe(
         (result: string) => {
           this.mercadoService.comprandoMercado(this.compra.mercado);
@@ -77,14 +77,12 @@ export class ItemCompraPage extends BasePage {
     return true;
   }
 
-  private converterMumeros(): void {
-    let quantidadeTemp = this.itemCompra.quantidade.toString().replace(',', '.');
-    this.itemCompra.quantidade = parseFloat(quantidadeTemp);
+  // private converterMumeros(): void {
+  //   let quantidadeTemp = this.itemCompra.quantidade.toString().replace(',', '.');
+  //   this.itemCompra.quantidade = parseFloat(quantidadeTemp);
 
-    let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
-    this.itemCompra.valor = parseFloat(valorTemp);
-
-
-  }
+  //   let valorTemp = this.itemCompra.valor.toString().replace(',', '.');
+  //   this.itemCompra.valor = parseFloat(valorTemp);
+  // }
 
 }

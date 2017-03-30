@@ -2,7 +2,7 @@ import { Mercado } from './../../modelo/mercado';
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
-export const ACOES_OPCAO_MERCADO = ['Editar', 'Apagar', 'Fechar'];
+export const ACOES_OPCAO_MERCADO = ['Editar', 'Apagar', 'Apagar Compra', 'Fechar'];
 
 @Component({
     selector: 'opcao-mercado',

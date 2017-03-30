@@ -1,6 +1,6 @@
 export class ItemCompra {
     nome: string;
-    valor: number;
+    valor: string;
     quantidade: number;
     descricao: string;
 }

@@ -3,7 +3,7 @@
         <ion-col>
             <h3>Mercado: {{item?.nome}} </h3>
         </ion-col>
-    </ion-row>    
+    </ion-row>
     <ion-row>
         <ion-col>
             <button ion-button icon-left color='secondary' block (tap)="onAction(acoes[0])">
@@ -20,11 +20,19 @@
             </button>
         </ion-col>
     </ion-row>
+    <ion-row *ngIf="item.compraAberta">
+        <ion-col>
+            <button ion-button icon-left color='danger' block (tap)="onAction(acoes[2])">
+                <ion-icon name="trash"></ion-icon>
+                {{acoes[2]}}
+            </button>
+        </ion-col>
+    </ion-row>
     <ion-row>
         <ion-col>
-            <button ion-button icon-left color='dark' block (tap)="onAction(acoes[2])">
+            <button ion-button icon-left color='dark' block (tap)="onAction(acoes[3])">
                 <ion-icon name="close-circle"></ion-icon>
-                {{acoes[2]}}
+                {{acoes[3]}}
             </button>
         </ion-col>
     </ion-row>

@@ -47,9 +47,12 @@ export class MercadoSerice {
                     m.compraAberta = false;
                 }
             }
-            this.addMercados();
-            observer.next('Operação realizada com sucesso.')
-            observer.complete();
+            this.storageMercado().then(
+                () => {
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
+                }
+            );
         });
         return obj;
     }

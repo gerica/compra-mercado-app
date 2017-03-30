@@ -126,7 +126,7 @@ export class CompraService {
         let totalValor = 0;
         for (let i of itens) {
             totalItens = totalItens + parseFloat(i.quantidade + '');
-            totalValor += i.valor * i.quantidade;
+            totalValor += parseFloat(i.valor) * i.quantidade;
         }
         return {
             totalItens: totalItens,
@@ -148,6 +148,31 @@ export class CompraService {
                         observer.next('Operação realizada com sucesso.')
                         observer.complete();
                     });
+                } else {
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
+                }
+            });
+        });
+        return obj;
+    }
+
+    public removeCompraPorMercado(mercado: Mercado): Observable<Object> {
+        let obj = new Observable(observer => {
+            this.fetchCompras().then(() => {
+                if (this._compras.length > 0) {
+                    for (let c of this._compras) {
+                        if (c.data === undefined && c.mercado.id === mercado.id) {
+                            return this.removeCompra(c).subscribe(
+                                (msg: string) => {
+                                    observer.next(msg);
+                                    observer.complete();
+                                }
+                            );
+                        }
+                    }
+                    observer.next('Operação realizada com sucesso.')
+                    observer.complete();
                 } else {
                     observer.next('Operação realizada com sucesso.')
                     observer.complete();

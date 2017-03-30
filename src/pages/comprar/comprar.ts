@@ -180,8 +180,8 @@ export class ComprarPage extends BasePage {
 
   private habilitarBotaoCompra(): void {
     if (this.compra.itens.length > 0) {
-      for (let c of this.compra.itens) {
-        if (c.valor === 0 || c.quantidade === 0) {
+      for (let i of this.compra.itens) {
+        if (i.valor === "0" || i.quantidade === 0) {
           this.temItens = false;
           return;
         }
@@ -197,7 +197,7 @@ export class ComprarPage extends BasePage {
     if (!!this.itensPrePreenchidos) {
       for (let i of this.itensPrePreenchidos) {
         i.quantidade = 0;
-        i.valor = 0;
+        i.valor = "0";
         this.compraService.insertItemCompra(i, this.compra).subscribe(
           (result: string) => {
             this.mercadoService.comprandoMercado(this.compra.mercado);

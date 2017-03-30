@@ -1,3 +1,4 @@
+import { CompraService } from './../../services/compra.service';
 import { ModalOpcaoMercaoPage } from './modal-opcao-mercado';
 import { OpcaoMercadoPage, ACOES_OPCAO_MERCADO } from './opcao-mercado';
 import { BasePage } from './../base';
@@ -25,6 +26,7 @@ export class MercadosPage extends BasePage {
 
   constructor(public navCtrl: NavController,
     private mercadoService: MercadoSerice,
+    private compraService: CompraService,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -56,8 +58,9 @@ export class MercadosPage extends BasePage {
       } else if (data.action === ACOES_OPCAO_MERCADO[0]) {
         this.modalOpcoes(data.item, ACOES_OPCAO_MERCADO[0])
       } else if (data.action === ACOES_OPCAO_MERCADO[1]) {
-        // this.modalOpcoes(data.item, ACOES_OPCAO_MERCADO[1])
         this.showConfirmApagar(data.item);
+      } else if (data.action === ACOES_OPCAO_MERCADO[2]) {
+        this.showConfirmApagarLista(data.item);
       }
 
     });
@@ -107,6 +110,21 @@ export class MercadosPage extends BasePage {
     );
   }
 
+  private removerCompra(mercado: Mercado): void {
+    this.createLoading("Apagando...");
+    this.compraService.removeCompraPorMercado(mercado).subscribe(
+      (result: string) => {
+        this.mercadoService.fecharCompra(mercado).subscribe(
+          () => {
+            this.getMercados();
+            this.loading.dismiss();
+            this.createToast(result);
+          }
+        );
+      }
+    );
+  }
+
   public showConfirmApagar(mercado: Mercado): void {
     let confirm = this.alertCtrl.create({
       title: 'Apagar Mercado',
@@ -129,4 +147,25 @@ export class MercadosPage extends BasePage {
     confirm.present();
   }
 
+  public showConfirmApagarLista(mercado: Mercado): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Apagar Compra',
+      message: `A compra no mercado: ${mercado.nome} será apagado.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            confirm.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.removerCompra(mercado);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 }
