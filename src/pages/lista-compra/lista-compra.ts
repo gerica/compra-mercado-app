@@ -94,9 +94,10 @@ export class ListaCompraPage extends BasePage {
   }
 
   public showConfirmApagar(compra: Compra): void {
+    // dia ${this.dataAtualFormatada(compra.data)}
     let confirm = this.alertCtrl.create({
       title: 'Apagar Compra',
-      message: `A compra do dia ${this.dataAtualFormatada(compra.data)} do mercado ${compra.mercado.nome} no valor de ${compra.valor} será apagada.`,
+      message: `A compra do mercado ${compra.mercado.nome} no valor de ${compra.valor} será apagada.`,
       buttons: [
         {
           text: 'Cancelar',
