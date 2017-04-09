@@ -16,7 +16,7 @@
   <ion-list>
     <ion-item *ngFor="let l of listaCompras" (tap)="onOpcoes(l)">
       <h3>{{l.nome}}</h3>
-      <p item-right>Itens:({{l.itens.size}})</p>
+      <p item-right>Itens:({{l.itens.length}})</p>
     </ion-item>
   </ion-list>
 </ion-content>

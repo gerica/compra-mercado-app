@@ -158,9 +158,8 @@ export class ListaPage extends BasePage {
       });
   }
 
-  private onComprarPreLista(mercado: Mercado, listaComprar: ListaComprar): void {
-    let itens = Array.from(listaComprar.itens);
-    this.navCtrl.push(ComprarPage, { mercado: mercado, itens: itens });
+  private onComprarPreLista(mercado: Mercado, listaComprar: ListaComprar): void {    
+    this.navCtrl.push(ComprarPage, { mercado: mercado, itens: listaComprar.itens });
   }
 
 }
