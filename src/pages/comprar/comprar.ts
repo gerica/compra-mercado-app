@@ -59,7 +59,7 @@ export class ComprarPage extends BasePage {
 
   private getItens() {
     this.itens = this.compraService.getItensOrdenado(this.compra);
-    const totalObj: any = this.compraService.calcularTotais(this.itens);    
+    const totalObj: any = this.compraService.calcularTotais(this.itens);
     this.totalItens = totalObj.totalItens;
     this.totalValor = totalObj.totalValor;
     this.habilitarBotaoCompra();
@@ -174,6 +174,13 @@ export class ComprarPage extends BasePage {
       ]
     });
     confirm.present();
+  }
+
+  public isValid(item: ItemCompra): boolean {    
+    if (item.quantidade > 0 && item.valor !== "0") {
+      return true;
+    }
+    return false;
   }
 
   private habilitarBotaoCompra(): void {

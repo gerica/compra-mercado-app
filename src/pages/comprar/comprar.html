@@ -18,7 +18,7 @@
     <ion-item *ngFor="let i of itens" (tap)="onOpcoes(i)">
       <h2>{{i?.nome}}</h2>
       <h3>Quantidade: {{i?.quantidade}}</h3>
-      <p item-right>Valor: R$ {{i?.valor}}</p>
+      <p item-right [color]="isValid(i) ? 'secondary' : 'danger'">Valor: R$ {{i?.valor}}</p>
     </ion-item>
   </ion-list>
   <button ion-button block (tap)="showConfirm()" [disabled]="!temItens">Realizar Compra</button>
