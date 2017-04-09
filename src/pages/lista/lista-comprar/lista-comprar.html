@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Lista de compra a realizar</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="onSubmit($event)">
+
+    <ion-item>
+      <ion-label>Nome</ion-label>
+      <ion-input type="text" [(ngModel)]="listaComprar.nome" name="nome" required></ion-input>
+    </ion-item>
+    <button ion-button type="button" block clear ion-button (click)="onAddItemAlert()">Adicionar Item</button>
+
+    <ion-list>
+      <ion-item *ngFor="let c of listaComprar.itens" (tap)="onRemoveAlert(c)">
+        <h3>{{c.nome}}</h3>
+      </ion-item>
+    </ion-list>
+
+    <button ion-button type="submit" block [disabled]="!f.valid">Gravar</button>
+  </form>
+</ion-content>

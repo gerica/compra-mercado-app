@@ -1,0 +1,39 @@
+<ion-grid text-center>
+    <ion-row>
+        <ion-col>
+            <h3>Lista: {{listaComprar?.nome}} </h3>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <button ion-button icon-left block (tap)="onAction(acoes[0])">
+                <ion-icon name="eye"></ion-icon>
+                {{acoes[0]}}
+            </button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <button ion-button icon-left color='secondary' block (tap)="onAction(acoes[1])">
+                <ion-icon name="link"></ion-icon>
+                {{acoes[1]}}
+            </button>
+        </ion-col>
+    </ion-row>
+        <ion-row>
+        <ion-col>
+            <button ion-button icon-left color='danger' block (tap)="onAction(acoes[2])">
+                <ion-icon name="trash"></ion-icon>
+                {{acoes[2]}}
+            </button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <button ion-button icon-left color='dark' block (tap)="onAction(acoes[3])">
+                <ion-icon name="close-circle"></ion-icon>
+                {{acoes[3]}}
+            </button>
+        </ion-col>
+    </ion-row>
+</ion-grid>

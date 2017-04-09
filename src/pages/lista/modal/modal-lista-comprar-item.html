@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Itens da lista: {{listaComprar?.nome}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let i of listaComprar.itens">
+      <h3>{{i?.nome}}</h3>
+    </ion-item>
+  </ion-list>
+
+  <div text-center>
+    
+    <button ion-button (tap)="dismiss(acoes[0])">{{acoes[0]}}</button>
+    <button ion-button color="dark" (tap)="dismiss()">Fechar</button>
+  </div>
+
+</ion-content>
