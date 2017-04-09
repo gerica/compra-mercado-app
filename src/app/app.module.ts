@@ -1,3 +1,8 @@
+import { ModalListaComprarItemPage } from './../pages/lista/modal/modal-lista-comprar-item';
+import { OpcaoListaComprarPage } from './../pages/lista/opcao-lista-comprar';
+import { ListaComprarService } from './../services/lista-comprar.service';
+import { ListaComprarPage } from './../pages/lista/lista-comprar/lista-comprar';
+import { ListaPage } from './../pages/lista/lista';
 import { UtilService } from './../services/util.service';
 import { ModalOpcaoMercaoPage } from './../pages/mercados/modal-opcao-mercado';
 import { OpcaoMercadoPage } from './../pages/mercados/opcao-mercado';
@@ -26,6 +31,7 @@ import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
     MyApp,
     TabsPage,
     ListaCompraPage,
+    ListaPage,
     MercadoPage,
     MercadosPage,
     ComprarPage,
@@ -36,7 +42,10 @@ import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
     ModalListaItemPage,
     ModalOpcaoMercaoPage,
     OpcaoMercadoPage,
-    OpcaoListaPage
+    OpcaoListaPage,
+    ListaComprarPage,
+    OpcaoListaComprarPage,
+    ModalListaComprarItemPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -47,6 +56,7 @@ import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
     MyApp,
     TabsPage,
     ListaCompraPage,
+    ListaPage,
     MercadoPage,
     MercadosPage,
     ComprarPage,
@@ -57,7 +67,10 @@ import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
     ModalListaItemPage,
     ModalOpcaoMercaoPage,
     OpcaoMercadoPage,
-    OpcaoListaPage
+    OpcaoListaPage,
+    ListaComprarPage,
+    OpcaoListaComprarPage,
+    ModalListaComprarItemPage
   ],
   providers: [
     StatusBar,
@@ -65,6 +78,7 @@ import { OpcaoListaPage } from "../pages/lista-compra/opcao-lista";
     MercadoSerice,
     CompraService,
     UtilService,
+    ListaComprarService,
     Storage,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]

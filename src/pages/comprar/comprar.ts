@@ -47,7 +47,7 @@ export class ComprarPage extends BasePage {
   }
 
 
-  ionViewWillEnter() {    
+  ionViewWillEnter() {
     this.compra = this.compraService.criarOuObterCompra(this.mercado);
     this.criarListaItens();
     this.getItens();
@@ -59,7 +59,7 @@ export class ComprarPage extends BasePage {
 
   private getItens() {
     this.itens = this.compraService.getItensOrdenado(this.compra);
-    const totalObj: any = this.compraService.calcularTotais(this.itens);
+    const totalObj: any = this.compraService.calcularTotais(this.itens);    
     this.totalItens = totalObj.totalItens;
     this.totalValor = totalObj.totalValor;
     this.habilitarBotaoCompra();
@@ -100,7 +100,7 @@ export class ComprarPage extends BasePage {
     });
   }
 
-  private editarItemCompra(item: ItemCompra): void {    
+  private editarItemCompra(item: ItemCompra): void {
     this.compraService.updateItemCompra(item).subscribe(
       (result: string) => {
         this.getItens();

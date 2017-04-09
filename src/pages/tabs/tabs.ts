@@ -1,3 +1,4 @@
+import { ListaPage } from './../lista/lista';
 import { MercadosPage } from './../mercados/mercados';
 import { ListaCompraPage } from './../lista-compra/lista-compra';
 import { Component } from '@angular/core';
@@ -10,6 +11,8 @@ export class TabsPage {
 
   listaCompra = ListaCompraPage;
   mercados = MercadosPage;
+  listaMercado = ListaPage;
+
 
   constructor() { }
 
