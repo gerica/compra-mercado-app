@@ -71,7 +71,8 @@ export class ListaComprarPage extends BasePage {
             item.quantidade = 0;
             item.valor = "0";
             item.nome = data.nome;
-            this.listaComprar.itens.add(item);
+            console.log(this.listaComprar.itens);
+            this.listaComprar.itens.push(item);
           }
         }
       ]
@@ -90,7 +91,9 @@ export class ListaComprarPage extends BasePage {
         {
           text: 'Confirmar',
           handler: data => {
-            this.listaComprar.itens.delete(item);
+            this.listaComprar.itens.splice(
+              this.listaComprar.itens.indexOf(item),1
+            );
           }
         }
       ]
