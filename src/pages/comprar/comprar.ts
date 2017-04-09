@@ -176,7 +176,7 @@ export class ComprarPage extends BasePage {
     confirm.present();
   }
 
-  public isValid(item: ItemCompra): boolean {    
+  public isValid(item: ItemCompra): boolean {
     if (item.quantidade > 0 && item.valor !== "0") {
       return true;
     }
@@ -210,6 +210,7 @@ export class ComprarPage extends BasePage {
         );
       }
       this.habilitarBotaoCompra();
+      this.itensPrePreenchidos = null;
     }
   }
 

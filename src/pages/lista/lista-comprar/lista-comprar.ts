@@ -71,8 +71,8 @@ export class ListaComprarPage extends BasePage {
             item.quantidade = 0;
             item.valor = "0";
             item.nome = data.nome;
-            console.log(this.listaComprar.itens);
             this.listaComprar.itens.push(item);
+            this.ordenarListaItens();
           }
         }
       ]
@@ -92,13 +92,24 @@ export class ListaComprarPage extends BasePage {
           text: 'Confirmar',
           handler: data => {
             this.listaComprar.itens.splice(
-              this.listaComprar.itens.indexOf(item),1
+              this.listaComprar.itens.indexOf(item), 1
             );
           }
         }
       ]
     });
     alert.present();
+  }
+
+  private ordenarListaItens(): void {
+    this.listaComprar.itens.sort((a: ItemCompra, b: ItemCompra) => {
+      if (a.nome > b.nome) {
+        return 1;
+      } else if (a.nome < b.nome) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
 }
