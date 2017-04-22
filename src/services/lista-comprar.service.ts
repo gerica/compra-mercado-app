@@ -32,7 +32,7 @@ export class ListaComprarService {
     public getListaCadastrada(): Observable<Set<ListaComprar>> {
         let obj = new Observable(observer => {
             this.fetchLista().then(() => {
-                observer.next(this._listaComprar);
+                observer.next(this._listaComprar.slice());
                 observer.complete();
             });
         });
